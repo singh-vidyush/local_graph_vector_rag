@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Training Institute Knowledge Assistant</title>
+
+    <link rel="stylesheet"
+          href= "{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="hero">
+        <h1>🤖 Training Institute Knowledge Assistant</h1>
+        <p>Graph-Vector RAG powered by ChromaDB, Ollama & Gemini</p>
+    </div>
+
+    <div class="card">
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label>Ask a Question</label>
+
+                <textarea
+                    name="question"
+                    placeholder="Example: What refund policy applies to the AI Engineering course?"
+                    required></textarea>
+            </div>
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label>Retrieval Method</label>
+
+                    <select name="retrieval_mode">
+
+                        <option value="similarity">
+                            Dense Similarity
+                        </option>
+
+                        <option value="mmr">
+                            MMR
+                        </option>
+
+                        <option value="bm25">
+                            BM25
+                        </option>
+
+                        <option value="graph_hybrid">
+                            Graph Hybrid
+                        </option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Generation Model</label>
+
+                    <select name="generation_mode">
+
+                        <option value="ollama">
+                            Ollama (Llama 3.2)
+                        </option>
+
+                        <option value="gemini">
+                            Gemini
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit">
+                Generate Answer
+            </button>
+
+        </form>
+
+    </div>
+
+    {% if error %}
+
+    <div class="error-card">
+        ❌ {{ error }}
+    </div>
+
+    {% endif %}
+
+
+    {% if result %}
+
+    <div class="result-card">
+
+        <h2>Generated Answer</h2>
+
+        <p class="answer">
+            {{ result.answer }}
+        </p>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <h3>Retrieval Method</h3>
+                <p>{{ result.retrieval_mode }}</p>
+            </div>
+
+            <div class="info-box">
+                <h3>Generation Model</h3>
+                <p>{{ result.generation_mode }}</p>
+            </div>
+
+        </div>
+
+        <h3>Sources</h3>
+
+        <ul class="sources">
+
+            {% for source in result.sources %}
+                <li>{{ source }}</li>
+            {% endfor %}
+
+        </ul>
+
+
+        <h3>Retrieved Chunks</h3>
+
+        {% for chunk in result.retrieved_chunks %}
+
+        <div class="chunk-card">
+
+            <div class="chunk-header">
+                <strong>
+                    {{ chunk.metadata.source }}
+                </strong>
+            </div>
+
+            <p>{{ chunk.page_content[:400] }}...</p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
