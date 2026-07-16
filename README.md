@@ -2,15 +2,6 @@
 
 > An End-to-End Local Graph-Vector RAG Application built using Flask, LangChain, ChromaDB, NetworkX, Ollama, and Gemini.
 
-![Python](https://shields.io)
-![Flask](https://shields.io)
-![LangChain](https://shields.io)
-![ChromaDB](https://shields.io)
-![NetworkX](https://shields.io)
-![Ollama](https://shields.io)
-![Gemini](https://shields.io)
-
-
 ---
 
 # 📖 Overview
